@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <style>
-        .color-preview {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
-        }
-        .color-preview .color-swatch {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-        }
-    </style>
-</head>
-<body>
-    <label>
-        Color Name:
-        <input type="text" id="color-name" />
-    </label>
-    <label>
-        Base Color:
-        <input type="text" id="base-color" />
-    </label>
-    <label>
-        Steps:
-        <input type="number" id="steps" min="2" max="50" value="12" />
-    </label>
+  <head>
+    <script src="js/spectra.js"></script>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/type.css" />
+    <link rel="stylesheet" href="css/input.css" />
+    <link rel="stylesheet" href="css/feedback.css" />
+    <link rel="stylesheet" href="css/media.css" />
+    <link rel="stylesheet" href="css/utility.css" />
+    <link rel="stylesheet" href="css/spectra.css" />
+  </head>
+  <body>
+    <!-- Form -->
+    <form>
+    <!-- Value -->
+    <label class="title" for="color-value">Value</label>
+    <input type="text" id="color-value" placeholder="#0011ff" required="true" />
+    <label class="helper" for="color-value"
+      >e.g. <code>#ff0055</code> or <code>#ff0055</code></label
+    >
+    <!-- Name -->
+    <label class="title" for="color-name">Name</label>
+    <input type="text" id="color-name" placeholder="blue" required="true" />
+    <label class="helper" for="color-name">Name your swatches</label>
+    <!-- Count -->
+    <label class="title" for="color-count">Count</label>
+    <input type="number" id="color-count" min="2" max="50" value="12" />
+    <label class="helper" for="color-count">Number of swatches generated</label>
+    <!-- Submit -->
     <button id="generate-colors">Generate Colors</button>
-    <button id="save-styles" disabled>Save to Figma</button>
+    </form>
+    <!-- Preview -->
     <ul id="color-preview"></ul>
-
-    <script src="spectra.js"></script>
-</body>
+  </body>
 </html>

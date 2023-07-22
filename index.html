@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .color-preview {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .color-preview .color-swatch {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <label>
+        Color Name:
+        <input type="text" id="color-name" />
+    </label>
+    <label>
+        Base Color:
+        <input type="text" id="base-color" />
+    </label>
+    <label>
+        Steps:
+        <input type="number" id="steps" min="2" max="50" value="12" />
+    </label>
+    <button id="generate-colors">Generate Colors</button>
+    <button id="save-styles" disabled>Save to Figma</button>
+    <ul id="color-preview"></ul>
+
+    <script src="spectra.js"></script>
+</body>
+</html>

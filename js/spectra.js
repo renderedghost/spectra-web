@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const baseColorInput = document.getElementById("color-value");
   const stepsInput = document.getElementById("color-count");
   const generateColorsButton = document.getElementById("generate-colors");
-  const copyCssButton = document.getElementById("copy-css");
+  const copyButton = document.getElementById("copy-css");
   const copyStatus = document.getElementById("copy-status");
   const colorList = document.getElementById("color-preview");
 
@@ -94,17 +94,17 @@ document.addEventListener("DOMContentLoaded", function () {
   stepsInput.value = localStorage.getItem("steps") || "";
 
   generateColorsButton.addEventListener("click", (event) => {
-    // Prevent the form from being submitted
+    // Prevent the default form submission
     event.preventDefault();
 
     const colorName = colorNameInput.value;
     const baseColor = baseColorInput.value;
     const steps = parseInt(stepsInput.value, 10);
 
-    // Store values
-    localStorage.setItem("colorName", colorName);
-    localStorage.setItem("baseColor", baseColor);
-    localStorage.setItem("steps", steps);
+    // Save current inputs to localStorage
+    localStorage.setItem('colorName', colorName);
+    localStorage.setItem('baseColor', baseColor);
+    localStorage.setItem('steps', steps);
 
     const hsl = hexToHSL(baseColor);
     let colors = generateLuminanceColors(hsl, steps);
@@ -112,45 +112,48 @@ document.addEventListener("DOMContentLoaded", function () {
     // clear the color preview
     colorList.innerHTML = "";
 
+    let cssVariableText = `:root { /* ${colorName} */\n`;
+
     // display each generated color in the color preview
     colors.forEach(function (color, index) {
       let li = document.createElement("li");
-      li.className = "color-sample";
+      li.className = "color-preview";
 
       let div = document.createElement("div");
       div.className = "color-swatch";
-      div.style.backgroundColor = `hsl(${color[0] * 360}, ${color[1] * 100}%, ${color[2] * 100
-        }%)`;
+      div.style.backgroundColor = `hsl(${color[0] * 360}, ${color[1] * 100}%, ${color[2] * 100}%)`;
       li.appendChild(div);
 
-      let cssVariable = document.createElement("code");
-      cssVariable.className = "css-variable";
-      cssVariable.textContent = `--${colorName}-${Math.round(
-        color[2] * 100
-      )}: hsl(${Math.round(color[0] * 360)}, ${Math.round(
-        color[1] * 100
-      )}%, ${Math.round(color[2] * 100)}%);`;
-      li.appendChild(cssVariable);
+      let cssVariable = `--${colorName}-${Math.round(color[2] * 100)}: hsl(${Math.round(color[0] * 360)}, ${Math.round(color[1] * 100)}%, ${Math.round(color[2] * 100)}%);`;
+      let span = document.createElement("code");
+      span.className = "css-variable";
+      span.textContent = cssVariable;
+      li.appendChild(span);
 
       colorList.appendChild(li);
 
-      copyCssButton.style.display = "block"; // make the copy button visible after generating colors
+      cssVariableText += `  ${cssVariable}\n`;
     });
+
+    cssVariableText += '}';
+
+    // store the :root wrapped CSS variables for copying
+    localStorage.setItem('cssVariables', cssVariableText);
+
+    // Show the "Copy CSS variables" button
+    copyButton.style.display = 'block'; // update this line
   });
 
-  copyCssButton.addEventListener("click", function () {
-    let cssVariables = Array.from(
-      document.querySelectorAll(".css-variable")
-    ).map((el) => el.textContent);
-    let cssVariablesString = cssVariables.join("\n");
-    navigator.clipboard
-      .writeText(cssVariablesString)
-      .then(function () {
-        copyStatus.textContent = "Copied to Clipboard";
-      })
-      .catch(function () {
-        copyStatus.textContent = "Error";
-      });
+  copyButton.addEventListener("click", function () {
+    const cssVariables = localStorage.getItem('cssVariables');
+
+    navigator.clipboard.writeText(cssVariables).then(function () {
+      // success
+      alert("Copied to Clipboard!");
+    }, function () {
+      // error
+      alert("Error");
+    });
   });
 
 });

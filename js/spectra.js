@@ -8,33 +8,26 @@ function hexToHSL(H) {
     return;
   }
 
-  let r = 0,
-    g = 0,
-    b = 0;
+  let r, g, b;
   // 3 digits
   if (H.length === 4) {
-    r = parseInt("0x" + H[1] + H[1]);
-    g = parseInt("0x" + H[2] + H[2]);
-    b = parseInt("0x" + H[3] + H[3]);
+    r = parseInt("0x" + H[1] + H[1]) / 255;
+    g = parseInt("0x" + H[2] + H[2]) / 255;
+    b = parseInt("0x" + H[3] + H[3]) / 255;
   }
   // 6 digits
   else if (H.length === 7) {
-    r = parseInt("0x" + H[1] + H[2]);
-    g = parseInt("0x" + H[3] + H[4]);
-    b = parseInt("0x" + H[5] + H[6]);
+    r = parseInt("0x" + H[1] + H[2]) / 255;
+    g = parseInt("0x" + H[3] + H[4]) / 255;
+    b = parseInt("0x" + H[5] + H[6]) / 255;
   }
-  // Convert to decimals
-  r /= 255;
-  g /= 255;
-  b /= 255;
 
   // Find greatest and smallest channel values
-  let cmin = Math.min(r, g, b),
-    cmax = Math.max(r, g, b),
-    delta = cmax - cmin,
-    h = 0,
-    s = 0,
-    l = 0;
+  const cmin = Math.min(r, g, b);
+  const cmax = Math.max(r, g, b);
+  const delta = cmax - cmin;
+
+  let h, s, l;
 
   // Calculate hue
   if (delta == 0) h = 0;
@@ -74,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const stepsInput = document.getElementById("color-count");
   const generateColorsButton = document.getElementById("generate-colors");
   const copyButton = document.getElementById("copy-css");
-  const copyStatus = document.getElementById("copy-status");
   const colorList = document.getElementById("color-preview");
 
   if (
@@ -82,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     !baseColorInput ||
     !stepsInput ||
     !generateColorsButton ||
+    !copyButton ||
     !colorList
   ) {
     console.error("One or more elements were not found in the DOM.");
@@ -116,15 +109,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // display each generated color in the color preview
     colors.forEach(function (color, index) {
+      let hue = Math.round(color[0] * 360);
+      let saturation = Math.round(color[1] * 100);
+      let lightness = Math.round(color[2] * 100);
+
       let li = document.createElement("li");
       li.className = "color-preview";
 
       let div = document.createElement("div");
       div.className = "color-swatch";
-      div.style.backgroundColor = `hsl(${color[0] * 360}, ${color[1] * 100}%, ${color[2] * 100}%)`;
+      div.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
       li.appendChild(div);
 
-      let cssVariable = `--${colorName}-${Math.round(color[2] * 100)}: hsl(${Math.round(color[0] * 360)}, ${Math.round(color[1] * 100)}%, ${Math.round(color[2] * 100)}%);`;
+      let cssVariable = `--${colorName}-${lightness}: hsl(${hue}, ${saturation}%, ${lightness}%);`;
       let span = document.createElement("code");
       span.className = "css-variable";
       span.textContent = cssVariable;
@@ -141,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem('cssVariables', cssVariableText);
 
     // Show the "Copy CSS variables" button
-    copyButton.style.display = 'block'; // update this line
+    copyButton.style.display = 'block';
   });
 
   copyButton.addEventListener("click", function () {
@@ -150,10 +147,9 @@ document.addEventListener("DOMContentLoaded", function () {
     navigator.clipboard.writeText(cssVariables).then(function () {
       // success
       alert("Copied to Clipboard!");
-    }, function () {
+    }, function (err) {
       // error
-      alert("Error");
+      alert("Error: " + err);
     });
   });
-
 });

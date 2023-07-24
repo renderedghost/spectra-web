@@ -23,14 +23,3 @@
     opacity: 1;
 }
 
-.color-preview {
-    display: flex;
-    align-items: center;
-    margin: 5px 0;
-}
-
-.color-swatch {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-}

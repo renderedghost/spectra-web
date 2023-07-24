@@ -55,3 +55,11 @@ a:active {
     color: var(--c-link-secondary-active);
     background-color: #d5d7f2;
 }
+
+input,
+select,
+textarea {
+    border: 1px solid var(--c-border);
+    border-radius: var(--border-radius);
+    margin: 0;
+}

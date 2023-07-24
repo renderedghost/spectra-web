@@ -30,3 +30,24 @@ p {
     font-weight: 500;
     text-transform: uppercase;
 }
+
+label {
+    font-size: var(--font-size);
+    line-height: var(--line-height-spacious);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+}
+
+label .title {}
+
+code,
+samp {
+    background-color: var(--c-bg-tri);
+    border-radius: var(--border-radius);
+    color: var(--c-text);
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}

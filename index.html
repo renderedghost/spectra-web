@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <script src="js/spectra.js"></script>
     <link rel="stylesheet" href="css/tokens.css" />
     <link rel="stylesheet" href="css/reset.css" />
@@ -11,29 +12,48 @@
     <link rel="stylesheet" href="css/feedback.css" />
     <link rel="stylesheet" href="css/media.css" />
     <link rel="stylesheet" href="css/utility.css" />
-    <link rel="stylesheet" href="css/spectra.css" />
-  </head>
-  <body>
-    <!-- Form -->
-    <form>
-    <!-- Value -->
-    <label class="title" for="color-value">Value</label>
-    <input type="text" id="color-value" placeholder="#0011ff" required="true" />
-    <label class="helper" for="color-value"
-      >e.g. <code>#ff0055</code> or <code>#ff0055</code></label
-    >
-    <!-- Name -->
-    <label class="title" for="color-name">Name</label>
-    <input type="text" id="color-name" placeholder="blue" required="true" />
-    <label class="helper" for="color-name">Name your swatches</label>
-    <!-- Count -->
-    <label class="title" for="color-count">Count</label>
-    <input type="number" id="color-count" min="2" max="50" value="12" />
-    <label class="helper" for="color-count">Number of swatches generated</label>
-    <!-- Submit -->
-    <button id="generate-colors">Generate Colors</button>
-    </form>
-    <!-- Preview -->
-    <ul id="color-preview"></ul>
-  </body>
+    <link rel="stylesheet" href="css/special.css" />
+</head>
+
+<body>
+    <main>
+        <h1>Spectra</h1>
+        <p class="overline">Generate a Color Ramp</p>
+        <!-- Form -->
+        <form>
+            <!-- Value -->
+            <div class="form-group">
+                <label class="title" for="color-value">Add your color value</label>
+                <label class="context" for="color-value">Only hexadecimal codes are supported currently (e.g. <code>#ff0055</code> or <code>#f05</code>)</label>
+                <input type="text" id="color-value" placeholder="#0011ff" required="true" />
+            </div>
+            <!-- Name -->
+            <div class="form-group">
+                <label class="title" for="color-name">Choose a swatch</label>
+                <label class="context" for="color-name">Use descriptive names (e.g. <code>blue</code>) or semantic names (e.g. <code>link</code>)</label>
+                <input type="text" id="color-name" placeholder="blue" required="true" />
+
+            </div>
+            <!-- Count -->
+            <div class="form-group">
+                <label class="title" for="color-count">Count</label>
+                <label class="context" for="color-count">How many swatches do you want?</label>
+                <input type="number" id="color-count" min="2" max="50" value="12" />
+            </div>
+            <!-- Submit -->
+            <div class="button-group">
+                <button id="generate-colors" class="bp--button">Generate Colors</button>
+            </div>
+        </form>
+    </main>
+    <aside>
+        <!-- Preview -->
+        <ul id="color-preview"></ul>
+        <div class="button-group">
+            <button id="copy-css" class="bp--button emphasis-low" style="display: none;">Copy CSS variables</button>
+        </div>
+        <div id="copy-status"></div>
+    </aside>
+</body>
+
 </html>

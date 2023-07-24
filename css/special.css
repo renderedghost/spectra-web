@@ -1,0 +1,37 @@
+main {
+    background-color: var(--c-bg-sec);
+    width: 40%;
+    padding: 4rem;
+}
+
+aside {
+    background-color: var(--c-bg);
+    width: 60%;
+    padding: 4rem 2rem;
+}
+
+#color-preview {
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: left;
+    align-items: stretch;
+    gap: var(--gap-s);
+}
+
+.color-sample {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--gap-s);
+}
+
+.color-swatch {
+    width: 1rem;
+    height: 1rem;
+    border-radius: var(--border-radius-circle);
+    outline: 1px solid var(--c-border);
+    outline-offset: 2px;
+}

@@ -146,7 +146,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-  copyButton.addEventListener("click", function () {
+  copyButton.addEventListener("click", function (event) {
+    // Prevent the form from submitting (which causes a page refresh)
+    event.preventDefault();
+
     const cssVariables = localStorage.getItem('cssVariables');
 
     navigator.clipboard.writeText(cssVariables).then(function () {

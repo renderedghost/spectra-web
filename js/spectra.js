@@ -54,8 +54,8 @@ function hexToHSL(H) {
 // Generate Luminance Colors
 function generateLuminanceColors(hsl, steps) {
   let colors = [];
-  for (let i = 0; i <= steps; i++) {
-    let luminance = i / steps;
+  for (let i = 0; i < steps; i++) {
+    let luminance = i / (steps - 1); // Adjust luminance calculation
     colors.push([hsl[0], hsl[1], luminance]);
   }
   return colors;
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
   baseColorInput.value = localStorage.getItem("baseColor") || "";
   stepsInput.value = localStorage.getItem("steps") || "";
 
-  generateColorsButton.addEventListener("click", (event) => {
+  generateColorsButton.addEventListener("click", async (event) => { // Async keyword for await usage inside
     // Prevent the default form submission
     event.preventDefault();
 
@@ -108,7 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let cssVariableText = `:root { /* ${colorName} */\n`;
 
     // display each generated color in the color preview
-    colors.forEach(function (color, index) {
+    for (let i = 0; i < colors.length; i++) { // Changed to traditional for loop for await inside loop
+      let color = colors[i];
       let hue = Math.round(color[0] * 360);
       let saturation = Math.round(color[1] * 100);
       let lightness = Math.round(color[2] * 100);
@@ -130,7 +131,10 @@ document.addEventListener("DOMContentLoaded", function () {
       colorList.appendChild(li);
 
       cssVariableText += `  ${cssVariable}\n`;
-    });
+
+      // Pause for the animation interval
+      await new Promise((resolve) => setTimeout(resolve, 100)); // 100ms animation interval
+    }
 
     cssVariableText += '}';
 
@@ -140,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Show the "Copy CSS variables" button
     copyButton.style.display = 'block';
   });
+
 
   copyButton.addEventListener("click", function () {
     const cssVariables = localStorage.getItem('cssVariables');
